@@ -1,0 +1,7 @@
+a,b,expected
+1;2,2;4,true
+1;2,-1;-2,true
+1;0,0;1,false
+0;0,5;7,true
+1.5;2.5,3.0;5.0,true
+1;2,3;4,false
