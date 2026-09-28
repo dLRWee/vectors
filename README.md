@@ -121,7 +121,7 @@ boolean zero = Vectors.isZero(v2A);
 The project has **95%** line coverage. 
 For convenience, custom `ArgumentConverter` classes and annotations were implemented to parse input parameters from `.csv` files into vector objects.
 
-Converter for `Vector2`:
+### Vector2ArgumentConverter
 
 ```java
 public final class Vector2ArgumentConverter implements ArgumentConverter {
@@ -147,7 +147,7 @@ public final class Vector2ArgumentConverter implements ArgumentConverter {
 }
 ```
 
-Annotation for `Vector2`:
+### CsvToVector2
 
 ```java
 @Target(ElementType.PARAMETER)
@@ -157,7 +157,7 @@ public @interface CsvToVector2 {
 }
 ```
 
-Usage example:
+### Usage example
 
 ```java
 @ParameterizedTest(name = "{0} + {1} = {2}")
