@@ -48,116 +48,44 @@ dependencies {
 }
 ```
 
-## 🏗️ Architecture
-
-- `Vector2` - A record representing a vector in 2D space.
-- `Vector3` - A record representing a vector in 3D space.
-- `Vectors` - A utility class that provides methods for performing mathematical operations on vectors (e.g., `dotProduct()`, `isCollinear()`, `normalize()`).
-- `VectorsConstants` - A utility class storing the global offset value used for comparing `double` values.
-
 ## 💡 Usage
 
-Here are a few examples of how to use the library.
+Here are a few examples of how you can use the library.
 
 ### Vector Initialization
 
 ```java
-Vector2 v2A = new Vector2(3.0, 4.0);
-Vector2 v2B = new Vector2(1.0, 2.0);
-
-Vector3 v3A = new Vector3(1.0, 0.0, 0.0);
-Vector3 v3B = new Vector3(0.0, 1.0, 0.0);
+Vector2 vector2 = new Vector2(3.0, 4.0);
+Vector3 vector3 = Vector3.ZERO;
 ```
 
-### Basic Arithmetic Operations
+### Products
 
 ```java
-// Addition & Subtraction
-Vector3 sum = Vectors.add(v3A, v3B);
-Vector2 difference = Vectors.subtract(v2A, v2B);
-
-// Multiplication & Division by a scalar
-Vector2 scaledMul = Vectors.multiply(v2A, 2.5);
-Vector3 scaledDiv = Vectors.divide(v3A, 2.0);
-
-// Negation
-Vector2 inverted = Vectors.negate(v2A);
+double dot = Vectors.dotProduct(a, b);
+Vector3 cross = Vectors.crossProduct(a, b);
 ```
 
-### Geometric Products & Length
+### Length
 
 ```java
-// Dot Product
-double dot = Vectors.dotProduct(v2A, v2B);
-
-// Cross Product
-Vector3 cross = Vectors.crossProduct(v3A, v3B);
-
-// Vector Length
-double magnitude = Vectors.length(v2A);
-
-// Normalization
-Vector3 unitVector = Vectors.normalize(v3A);
+double magnitude = Vectors.length(vector);
+Vector3 unitVector = Vectors.normalize(vector);
 ```
 
-### Comparison & Checks
+## 🏗️ Architecture
 
-```java
-// Checking for equality with an tolerance value
-boolean equal = Vectors.isEqual(v2A, v2B, 0.001);
-
-// Orthogonality check
-boolean perpendicular = Vectors.isOrthogonal(v3A, v3B);
-
-// Collinearity check
-boolean parallel = Vectors.isCollinear(v2A, v2B);
-
-// Check if it is a zero vector
-boolean zero = Vectors.isZero(v2A);
-```
+- `Vector2` - A record representing a vector in 2D space.
+- `Vector3` - A record representing a vector in 3D space.
+- `Vectors` - A utility class that provides methods for performing mathematical operations on vectors.
+- `VectorsConstants` - A utility class storing the global offset value used for comparing `double` values.
 
 ## ✔️ Testing
 
 The project has **95%** line coverage. 
 For convenience, custom `ArgumentConverter` classes and annotations were implemented to parse input parameters from `.csv` files into vector objects.
 
-### Vector2ArgumentConverter
-
-```java
-public final class Vector2ArgumentConverter implements ArgumentConverter {
-    private static final String SPLITERATOR = ";";
-
-    @Override
-    public Object convert(Object source, ParameterContext context)
-            throws ArgumentConversionException {
-        if (!(source instanceof String)) {
-            throw new ArgumentConversionException("Argument must be an instance of String");
-        }
-
-        try {
-            String[] parts = ((String) source).split(SPLITERATOR);
-            double x = Double.parseDouble(parts[0]);
-            double y = Double.parseDouble(parts[1]);
-            return new Vector2(x, y);
-        } catch (Exception e) {
-            String message = String.format("Could not convert '%s' to Vector2", source);
-            throw new ArgumentConversionException(message);
-        }
-    }
-}
-```
-
-### CsvToVector2
-
-```java
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-@ConvertWith(Vector2ArgumentConverter.class)
-public @interface CsvToVector2 {
-}
-```
-
-### Usage example
+### Test example
 
 ```java
 @ParameterizedTest(name = "{0} + {1} = {2}")
